@@ -1,0 +1,28 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.gly091020.CyberMaid.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "ChargerBlockEntityMixin",
+    "RobosurgeonBlockEntityMixin",
+    "RobosurgeonMenuMixin",
+    "SurgeryGhostTogglePacketMixin",
+    "accessor.CyberwareUserDataAccessor",
+    "accessor.RobosurgeonBlockEntityAccessor",
+    "cyberware.CorticalStackItemMixin",
+    "cyberware.MetabolicGeneratorItemMixin",
+    "cyberware.TargetingOverlayItemMixin",
+    "cyberware.ThreatMatrixItemMixin"
+  ],
+  "client": [
+    "RobosurgeonScreenMixin",
+    "ScannerScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
