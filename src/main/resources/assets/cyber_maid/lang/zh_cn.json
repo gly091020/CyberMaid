@@ -24,5 +24,7 @@
   "cyberware.gui.scanner_saying.96": "正在让943眼前一黑",
   "cyberware.gui.scanner_saying.97": "正在学习英语",
   "cyberware.gui.scanner_saying.98": "正在编写i狐代码",
-  "cyberware.gui.scanner_saying.99": "正在添加51121小巧思"
+  "cyberware.gui.scanner_saying.99": "正在添加51121小巧思",
+  "cyberware.risk.maid_only": "该部位只能安装给女仆",
+  "cyberware.risk.too_many_installs": "同类部件安装数量超过上限"
 }

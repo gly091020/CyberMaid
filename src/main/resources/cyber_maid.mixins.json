@@ -12,6 +12,7 @@
     "accessor.RobosurgeonBlockEntityAccessor",
     "cyberware.CorticalStackItemMixin",
     "cyberware.MetabolicGeneratorItemMixin",
+    "cyberware.RobosurgeonMaidItemMixin",
     "cyberware.TargetingOverlayItemMixin",
     "cyberware.ThreatMatrixItemMixin"
   ],
@@ -20,7 +21,8 @@
     "RobosurgeonScreenMixin",
     "ScannerScreenMixin",
     "cyberware.CyberwareMenuScreenMixin",
-    "cyberware.ForgeClientEventsMixin"
+    "cyberware.ForgeClientEventsMixin",
+    "cyberware.RobosurgeonScreenAlertMixin"
   ],
   "injectors": {
     "defaultRequire": 1
