@@ -1,6 +1,7 @@
 package com.gly091020.CyberMaid;
 
 import com.mojang.logging.LogUtils;
+import com.gly091020.CyberMaid.network.CyberMaidNetwork;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -35,7 +36,7 @@ import org.slf4j.Logger;
 @Mod(CyberMaid.MODID)
 public class CyberMaid {
     public static final String MODID = "cyber_maid";
-    public CyberMaid(){
-
+    public CyberMaid(IEventBus modBus, ModContainer container){
+        modBus.addListener(CyberMaidNetwork::register);
     }
 }

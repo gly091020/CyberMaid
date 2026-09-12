@@ -23,7 +23,7 @@ public class RobosurgeonBlockEntityMixin {
     private static void handleLivingEntity(Level level, BlockPos pos, BlockState state, RobosurgeonBlockEntity entity, CallbackInfo ci, @Local(name = "chamberPos") BlockPos chamberPos, @Local(name = "chamber") SurgeryChamberBlockEntity chamber){
         var extraBE = MixinUtil.extraRobosurgeonBlockEntity(entity);
         LivingEntity patient = extraBE.invokeFindPatient(chamberPos);
-        if (!chamber.isOpen() && patient instanceof EntityMaid serverPlayer) {
+        if (!chamber.isOpen() && patient instanceof EntityMaid serverPlayer && serverPlayer.getOwner() != null) {
             ci.cancel();
             if (HandleRobosurgeonBlockEntityWithoutPlayer.needsSurgery(serverPlayer, entity) && HandleRobosurgeonBlockEntityWithoutPlayer.checkRequirements(serverPlayer, entity)) {
                 extraBE.setProgress(extraBE.getProgress() + 1);

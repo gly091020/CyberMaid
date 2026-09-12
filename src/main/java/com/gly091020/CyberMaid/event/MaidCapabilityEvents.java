@@ -4,6 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.api.event.MaidAndItemTransformEv
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
 import com.gly091020.CyberMaid.util.HandleCyberwareEventsWithoutPlayer;
+import com.gly091020.CyberMaid.util.HandleCyberwareSyncWithoutPlayer;
 import com.gly091020.CyberMaid.util.HandleCyberwareUserDataWithoutPlayer;
 import com.maxwell.cyber_ware_port.CyberWare;
 import com.maxwell.cyber_ware_port.common.capability.CyberwareCapabilityProvider;
@@ -15,10 +16,12 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
@@ -113,10 +116,18 @@ public class MaidCapabilityEvents {
         if (event.getEntity().level().isClientSide) return;
         if (!(event.getEntity() instanceof LivingEntity living)) return;
         if (living instanceof Player) return;
+        if(!(living instanceof EntityMaid))return;  // 暂时性代码
         if (!living.hasData(CyberwareCapabilityProvider.CYBERWARE_DATA)) return;
 
         CyberwareUserData data = living.getData(CyberwareCapabilityProvider.CYBERWARE_DATA.get());
         if (!data.isInitialized()) return;
         HandleCyberwareUserDataWithoutPlayer.tick(living, data);
+    }
+
+    @SubscribeEvent
+    public static void onStartTracking(PlayerEvent.StartTracking event) {
+        if (event.getTarget() instanceof EntityMaid maid && event.getEntity() instanceof ServerPlayer player) {
+            HandleCyberwareSyncWithoutPlayer.syncToPlayer(player, maid);
+        }
     }
 }

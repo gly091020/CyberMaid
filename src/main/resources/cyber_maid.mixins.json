@@ -16,8 +16,11 @@
     "cyberware.ThreatMatrixItemMixin"
   ],
   "client": [
+    "ClientPacketHandlerMixin",
     "RobosurgeonScreenMixin",
-    "ScannerScreenMixin"
+    "ScannerScreenMixin",
+    "cyberware.CyberwareMenuScreenMixin",
+    "cyberware.ForgeClientEventsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

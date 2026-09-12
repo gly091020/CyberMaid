@@ -12,6 +12,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -248,6 +249,9 @@ public class HandleCyberwareUserDataWithoutPlayer {
             extraData.setIsPowered(currentlyPowered);
             recalculateCapacity(player, data);
         }
+
+        if(!(player.level() instanceof ServerLevel serverLevel))return;
+        serverLevel.getServer().getPlayerList().getPlayers().forEach(p -> HandleCyberwareSyncWithoutPlayer.syncToPlayer(p, player));
     }
 
     public static ItemEntity drop(LivingEntity entity, ItemStack stack){

@@ -81,6 +81,7 @@ public class HandleRobosurgeonBlockEntityWithoutPlayer {
             HandleSurgeryWithoutPlayer.execute(player, blockEntity.getItemHandler(), body);
             dispatchSurgeryChanges(player, before, body);
             HandleCyberwareUserDataWithoutPlayer.recalculateCapacity(player, userData);
+            HandleCyberwareSyncWithoutPlayer.syncToTrackingPlayers(player);
             populateGhostItems(player, blockEntity);
             player.level().playSound(null, player.blockPosition(), SoundEvents.IRON_GOLEM_HURT, SoundSource.PLAYERS, 1.0F, 1.0F);
             NeoForge.EVENT_BUS.post(new CyberwareSurgeryEvent.Post(player, blockEntity));
