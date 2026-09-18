@@ -15,6 +15,10 @@ repositories {
         url = "https://api.modrinth.com/maven"
     }
     maven {
+        name = "GeckoLib"
+        url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
+    }
+    maven {
         url "https://cursemaven.com"
     }
 }
@@ -125,7 +129,14 @@ dependencies {
 
     implementation("maven.modrinth:FJab88SV:$cyber_ware_version")
     implementation("maven.modrinth:R0bDWFAW:$little_maid_version")
+
     implementation("maven.modrinth:QHB4kBBS:$maid_spell_version")
+    implementation("maven.modrinth:s4OWxYQQ:$irons_spellbooks_version") { transitive = false }
+    implementation("maven.modrinth:TKB6INcv:$ars_nouveau_version") { transitive = false }
+    runtimeOnly("software.bernie.geckolib:geckolib-neoforge-1.21.1:$geckolib_version")
+    runtimeOnly("maven.modrinth:playeranimator:$playeranimator_version") { transitive = false }
+    runtimeOnly("maven.modrinth:irons-lib:$irons_lib_version") { transitive = false }
+
     implementation "curse.maven:touhou-little-maid-love-loathe-1631516:$love_loathe_version"
 }
 

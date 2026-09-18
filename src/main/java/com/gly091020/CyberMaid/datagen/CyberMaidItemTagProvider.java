@@ -2,6 +2,7 @@ package com.gly091020.CyberMaid.datagen;
 
 import com.gly091020.CyberMaid.CyberMaid;
 import com.gly091020.CyberMaid.registry.CyberMaidItems;
+import com.gly091020.CyberMaid.compat.maidspell.MaidSpellItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
@@ -20,6 +21,8 @@ public class CyberMaidItemTagProvider extends ItemTagsProvider {
             ResourceLocation.fromNamespaceAndPath("cyber_ware_port", "cyberware/legs"));
     private static final TagKey<Item> CYBER_FAIRY_DROPS = TagKey.create(Registries.ITEM,
             ResourceLocation.fromNamespaceAndPath(CyberMaid.MODID, "cyber_fairy_drops"));
+    private static final TagKey<Item> CYBERWARE_BRAIN = TagKey.create(Registries.ITEM,
+            ResourceLocation.fromNamespaceAndPath("cyber_ware_port", "cyberware/brain"));
 
     public CyberMaidItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
                                     ExistingFileHelper existingFileHelper) {
@@ -39,5 +42,9 @@ public class CyberMaidItemTagProvider extends ItemTagsProvider {
                 CyberMaidItems.HYDRAULIC_JOINTS.get(),
                 CyberMaidItems.SHOCK_ABSORBER.get(),
                 CyberMaidItems.EMERGENCY_JET_ESCAPE.get());
+        tag(CYBERWARE_BRAIN).add(
+                MaidSpellItems.SPELL_COOLDOWN_REDUCER.get(),
+                MaidSpellItems.SPELL_MANA_REDUCER.get(),
+                MaidSpellItems.SPELL_MANA_DEBT.get());
     }
 }

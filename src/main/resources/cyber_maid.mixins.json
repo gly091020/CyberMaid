@@ -2,6 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.gly091020.CyberMaid.mixin",
+  "plugin": "com.gly091020.CyberMaid.CyberMaidMixinConfigPlugin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "ChargerBlockEntityMixin",
@@ -14,7 +15,10 @@
     "cyberware.MetabolicGeneratorItemMixin",
     "cyberware.RobosurgeonMaidItemMixin",
     "cyberware.TargetingOverlayItemMixin",
-    "cyberware.ThreatMatrixItemMixin"
+    "cyberware.ThreatMatrixItemMixin",
+    "maidspell.ArsNouveauProviderMixin",
+    "maidspell.IronsSpellbooksProviderMixin",
+    "maidspell.SimplifiedSpellCasterMixin"
   ],
   "client": [
     "ClientPacketHandlerMixin",

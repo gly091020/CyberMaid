@@ -10,6 +10,7 @@ import com.gly091020.CyberMaid.registry.CyberMaidItems;
 import com.gly091020.CyberMaid.util.HandleCyberwareEventsWithoutPlayer;
 import com.gly091020.CyberMaid.util.HandleCyberwareSyncWithoutPlayer;
 import com.gly091020.CyberMaid.util.HandleCyberwareUserDataWithoutPlayer;
+import com.gly091020.CyberMaid.compat.maidspell.MaidSpellManaCompat;
 import com.gly091020.CyberMaid.util.MaidLegCyberwareAttributes;
 import com.maxwell.cyber_ware_port.CyberWare;
 import com.maxwell.cyber_ware_port.common.capability.CyberwareCapabilityProvider;
@@ -165,6 +166,7 @@ public class MaidCapabilityEvents {
         if (!(event.getEntity() instanceof LivingEntity living)) return;
         if (living instanceof Player) return;
         if(!(living instanceof EntityMaid))return;  // 暂时性代码
+        MaidSpellManaCompat.tickMaidSpellMana((EntityMaid) living);
         if (!living.hasData(CyberwareCapabilityProvider.CYBERWARE_DATA)) return;
 
         CyberwareUserData data = living.getData(CyberwareCapabilityProvider.CYBERWARE_DATA.get());

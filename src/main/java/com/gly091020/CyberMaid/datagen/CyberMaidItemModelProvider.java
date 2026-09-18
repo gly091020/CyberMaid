@@ -1,6 +1,7 @@
 package com.gly091020.CyberMaid.datagen;
 
 import com.gly091020.CyberMaid.registry.CyberMaidItems;
+import com.gly091020.CyberMaid.compat.maidspell.MaidSpellItems;
 import com.google.gson.JsonElement;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
@@ -29,6 +30,9 @@ public class CyberMaidItemModelProvider implements DataProvider {
         model(models, CyberMaidItems.HYDRAULIC_JOINTS.getId(), "cyber_ware_port:item/foot_upgrades_wheels");
         model(models, CyberMaidItems.SHOCK_ABSORBER.getId(), "cyber_ware_port:item/leg_upgrades_fall_damage");
         model(models, CyberMaidItems.EMERGENCY_JET_ESCAPE.getId(), "cyber_ware_port:item/leg_upgrades_jump_boost");
+        model(models, MaidSpellItems.SPELL_COOLDOWN_REDUCER.getId(), "cyber_ware_port:item/brain_upgrades_neural_contextualizer");
+        model(models, MaidSpellItems.SPELL_MANA_REDUCER.getId(), "cyber_ware_port:item/brain_upgrades_matrix");
+        model(models, MaidSpellItems.SPELL_MANA_DEBT.getId(), "cyber_ware_port:item/brain_upgrades_radio");
         // 刷怪蛋沿用原模组妖精蛋的图标
         model(models, CyberMaidItems.CYBER_FAIRY_SPAWN_EGG.getId(), "touhou_little_maid:item/fairy_spawn_egg");
 

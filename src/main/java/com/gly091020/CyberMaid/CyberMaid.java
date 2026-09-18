@@ -1,6 +1,7 @@
 package com.gly091020.CyberMaid;
 
 import com.gly091020.CyberMaid.network.CyberMaidNetwork;
+import com.gly091020.CyberMaid.compat.maidspell.MaidSpellItems;
 import com.gly091020.CyberMaid.registry.CyberMaidEntities;
 import com.gly091020.CyberMaid.registry.CyberMaidItems;
 import net.neoforged.bus.api.IEventBus;
@@ -12,6 +13,7 @@ public class CyberMaid {
     public CyberMaid(IEventBus modBus){
         CyberMaidItems.register(modBus);
         CyberMaidEntities.register(modBus);
+        MaidSpellItems.register(modBus);
         modBus.addListener(CyberMaidItems::addToCreativeTab);
         modBus.addListener(CyberMaidNetwork::register);
     }
