@@ -1,5 +1,6 @@
 package com.gly091020.CyberMaid.util;
 
+import com.gly091020.CyberMaid.api.MaidCyberwareTick;
 import com.maxwell.cyber_ware_port.api.event.CyberwareRejectionEvent;
 import com.maxwell.cyber_ware_port.api.json.CyberwareAPI;
 import com.maxwell.cyber_ware_port.common.capability.CyberwareUserData;
@@ -7,7 +8,6 @@ import com.maxwell.cyber_ware_port.common.item.base.BodyPartType;
 import com.maxwell.cyber_ware_port.common.item.base.ICyberware;
 import com.maxwell.cyber_ware_port.common.util.CyberwareBodyStatus;
 import com.maxwell.cyber_ware_port.config.CyberwareConfig;
-import com.gly091020.CyberMaid.api.MaidCyberwareTick;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -31,6 +31,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 import static com.maxwell.cyber_ware_port.common.capability.CyberwareUserData.isItemPowered;
 
@@ -44,7 +45,7 @@ public class HandleCyberwareUserDataWithoutPlayer {
         for (AttributeInstance instance : attributeMap.getSyncableAttributes()) {
             List<ResourceLocation> toRemove = new ArrayList<>();
             instance.getModifiers().forEach((mod) -> {
-                if (mod.id().getPath().startsWith("cyberware_slot_")) {
+                if (isManagedModifier(mod.id())) {
                     toRemove.add(mod.id());
                 }
 
@@ -90,6 +91,14 @@ public class HandleCyberwareUserDataWithoutPlayer {
         }
 
         player.setHealth(player.getMaxHealth() * Math.min(healthRatio, 1.0F));
+    }
+
+    // 这里改成按实际生成的 id 形状清理，基础模组物品和附属物品都能清干净。
+    private static final Pattern SLOT_SUFFIX_MODIFIER_PATH = Pattern.compile(".*_slot_\\d+");
+
+    private static boolean isManagedModifier(ResourceLocation id) {
+        return id.getPath().startsWith("cyberware_slot_")
+                || SLOT_SUFFIX_MODIFIER_PATH.matcher(id.getPath()).matches();
     }
 
     public static void killPlayer(LivingEntity player, final String suffix) {
