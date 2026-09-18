@@ -26,5 +26,18 @@
   "cyberware.gui.scanner_saying.98": "正在编写i狐代码",
   "cyberware.gui.scanner_saying.99": "正在添加51121小巧思",
   "cyberware.risk.maid_only": "该部位只能安装给女仆",
-  "cyberware.risk.too_many_installs": "同类部件安装数量超过上限"
+  "cyberware.risk.too_many_installs": "同类部件安装数量超过上限",
+  "item.cyber_maid.powered_prosthetic_legs": "动力义腿",
+  "item.cyber_maid.hydraulic_joints": "液压关节",
+  "item.cyber_maid.shock_absorber": "减震组件",
+  "item.cyber_maid.emergency_jet_escape": "应急喷气脱离器",
+  "cyberware.tooltip.powered_prosthetic_legs": "为女仆提供 10% 移动速度增益。需要左右机械腿与能源。",
+  "cyberware.tooltip.hydraulic_joints": "使女仆能直接跨越约 3 格高差。需要左右机械腿与能源。",
+  "cyberware.tooltip.shock_absorber": "普通摔落伤害降低 60%，并将减免前的摔落冲击扩散给 3 格内敌对生物。需要左右机械腿。",
+  "cyberware.tooltip.emergency_jet_escape": "受到超过最大生命 10% 的重创、生命低于 50% 或陷入岩浆时自动喷气脱离。需要左右机械腿与 1000 能源。",
+  "cyberware.risk.surgery_blocked": "手术无法进行：%s",
+  "cyberware.risk.maid_limb_missing": "女仆缺少%s",
+  "cyberware.tooltip.maid_only": "只能女仆使用",
+  "entity.cyber_maid.cyber_fairy": "赛博妖精",
+  "item.cyber_maid.cyber_fairy_spawn_egg": "赛博妖精刷怪蛋"
 }

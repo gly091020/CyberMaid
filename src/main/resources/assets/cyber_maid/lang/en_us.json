@@ -26,5 +26,18 @@
   "cyberware.gui.scanner_saying.98": "Writing iFox code",
   "cyberware.gui.scanner_saying.99": "51121's clever touches",
   "cyberware.risk.maid_only": "Only maids can use this",
-  "cyberware.risk.too_many_installs": "Too many copies installed"
+  "cyberware.risk.too_many_installs": "Too many copies installed",
+  "item.cyber_maid.powered_prosthetic_legs": "Powered Prosthetic Legs",
+  "item.cyber_maid.hydraulic_joints": "Hydraulic Joints",
+  "item.cyber_maid.shock_absorber": "Shock Absorber",
+  "item.cyber_maid.emergency_jet_escape": "Emergency Jet Escape",
+  "cyberware.tooltip.powered_prosthetic_legs": "Grants a maid 10% movement speed. Requires both cyberlegs and power.",
+  "cyberware.tooltip.hydraulic_joints": "Lets a maid step directly over height differences of about 3 blocks. Requires both cyberlegs and power.",
+  "cyberware.tooltip.shock_absorber": "Reduces ordinary fall damage by 60% and spreads its pre-reduction impact to hostile mobs within 3 blocks. Requires both cyberlegs.",
+  "cyberware.tooltip.emergency_jet_escape": "Jets away after damage over 10% max health, below 50% health, or in lava. Requires both cyberlegs and 1000 energy.",
+  "cyberware.risk.surgery_blocked": "Surgery cannot proceed: %s",
+  "cyberware.risk.maid_limb_missing": "the maid is missing %s",
+  "cyberware.tooltip.maid_only": "Only maids can use this",
+  "entity.cyber_maid.cyber_fairy": "Cyber Fairy",
+  "item.cyber_maid.cyber_fairy_spawn_egg": "Cyber Fairy Spawn Egg"
 }

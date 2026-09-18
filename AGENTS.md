@@ -4,13 +4,16 @@
 
 - 回答与提交信息统一用中文。
 - 注释从简：只在 `api/` 包写 `/**` 文档注释，其余代码不复述逻辑。
+- 数据文件（配方等）里能换成标签的物品一律用标签，如 `minecraft:iron_ingot` → `c:ingots/iron`、`minecraft:white_wool` → `minecraft:wool`。
+- 配方、物品模型、标签一律由数据生成产出，不要手写 json；语言文件例外，`assets/cyber_maid/lang/` 保持手写维护。
 - CyberWare Port 与 Touhou Little Maid 是前置模组，不修改其源码，只通过 API、事件与 mixin 扩展。
 - 改动集中在 `com.gly091020.CyberMaid` 与本仓库资源目录，不顺手改动无关文件。
 
 ## Project Structure & Module Organization
 
-- `src/main/java/com/gly091020/CyberMaid/` — 模组源码，按职责分包：`api`（扩展接口）、`client`、`event`（事件入口）、`network`（自定义网络包）、`util`（非玩家实体的能力、同步与手术处理，统一 `*WithoutPlayer` 后缀）、`mixin`（含 `accessor/`、`cyberware/`）。
-- `src/main/resources/` — `assets/cyber_maid/`（`lang/`、`models/`）、`data/cyber_maid/`（配方、标签）以及 `cyber_maid.mixins.json`。
+- `src/main/java/com/gly091020/CyberMaid/` — 模组源码，按职责分包：`api`（扩展接口）、`client`、`datagen`（数据生成 provider）、`event`（事件入口）、`network`（自定义网络包）、`util`（非玩家实体的能力、同步与手术处理，统一 `*WithoutPlayer` 后缀）、`mixin`（含 `accessor/`、`cyberware/`）。
+- `src/main/resources/` — 手写资源：`assets/cyber_maid/lang/`（`en_us.json`、`zh_cn.json`）与 `cyber_maid.mixins.json`。
+- `src/generated/resources/` — 数据生成产物（配方、物品模型、标签），随源码一起打包，不要手改。
 - `src/main/templates/META-INF/neoforge.mods.toml` — 构建时由 `generateModMetadata` 展开的模组元数据。
 - `run/` — 本地开发运行目录，不提交。
 
@@ -20,6 +23,7 @@
 - 部件的每 tick 行为实现 `MaidCyberwareTick.onMaidTick`，由 `HandleCyberwareUserDataWithoutPlayer.tick` 分发；属性与能量容量重建放在 `recalculateCapacity`。
 - 事件类只负责分发（`HandleCyberwareEventsWithoutPlayer.dispatch`），具体行为写在部件自身。
 - 新增 mixin 必须登记到 `cyber_maid.mixins.json` 的 `mixins` 或 `client` 数组，否则不会被应用。
+- 新增“赛博”生物要实现 `ICyberwareMob`，掉落交给前置模组的管线（普通池 + `getSpecialDrops()`，掉落物会被标成非全新）。
 
 ## Build, Test, and Development Commands
 
@@ -28,7 +32,7 @@
 - `.\gradlew.bat compileJava --console=plain -q` — 快速编译源码。
 - `.\gradlew.bat build` — 完整构建，产物在 `build/libs/cyber_maid-<version>.jar`。
 - `.\gradlew.bat runClient` / `.\gradlew.bat runServer` — 启动开发客户端/服务端。
-- `.\gradlew.bat runData` — 数据生成，输出到 `src/generated/resources/`。
+- `.\gradlew.bat runData` — 数据生成，输出到 `src/generated/resources/`；改完 `datagen` 下的 provider 后必须重跑，生成物与 `<item>_assembly` / `<item>_engineering` 等命名保持一致。
 
 前置依赖从 Modrinth maven 拉取，首次构建需要网络。
 
@@ -41,7 +45,7 @@
 
 ## Testing Guidelines
 
-仓库没有 `src/test` 目录，也没有 CI。改动以 `compileJava` 通过加游戏内实测为准；涉及网络同步或客户端渲染时，单机与专用服务端都要验证。
+仓库没有 `src/test` 目录，也没有 CI。agent 只做 `compileJava` / `build` / `runData` 自检，**不要启动 `runClient` / `runServer` 做实机验证**——游戏内实测由作者本人进行。
 
 ## Commit & Pull Request Guidelines
 

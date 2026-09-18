@@ -23,13 +23,14 @@ public class RobosurgeonBlockEntityMixin {
     private static void handleLivingEntity(Level level, BlockPos pos, BlockState state, RobosurgeonBlockEntity entity, CallbackInfo ci, @Local(name = "chamberPos") BlockPos chamberPos, @Local(name = "chamber") SurgeryChamberBlockEntity chamber){
         var extraBE = MixinUtil.extraRobosurgeonBlockEntity(entity);
         LivingEntity patient = extraBE.invokeFindPatient(chamberPos);
-        if (!chamber.isOpen() && patient instanceof EntityMaid serverPlayer && serverPlayer.getOwner() != null) {
+        if (!chamber.isOpen() && patient instanceof EntityMaid maid && maid.getOwner() != null) {
             ci.cancel();
-            if (HandleRobosurgeonBlockEntityWithoutPlayer.needsSurgery(serverPlayer, entity) && HandleRobosurgeonBlockEntityWithoutPlayer.checkRequirements(serverPlayer, entity)) {
+            boolean wantsSurgery = HandleRobosurgeonBlockEntityWithoutPlayer.needsSurgery(maid, entity);
+            if (wantsSurgery && HandleRobosurgeonBlockEntityWithoutPlayer.checkRequirements(maid, entity)) {
                 extraBE.setProgress(extraBE.getProgress() + 1);
                 entity.setChanged();
                 if (extraBE.getProgress() % 20 == 0) {
-                    serverPlayer.hurt(level.damageSources().magic(), 1.0F);
+                    maid.hurt(level.damageSources().magic(), 1.0F);
                     level.playSound(null, chamberPos, SoundEvents.PLAYER_HURT, SoundSource.PLAYERS, 0.5F, 1.0F);
                     if (extraBE.getProgress() % 40 == 0) {
                         level.playSound(null, pos, SoundEvents.BEACON_AMBIENT, SoundSource.BLOCKS, 0.3F, 1.5F);
@@ -40,15 +41,20 @@ public class RobosurgeonBlockEntityMixin {
                 }
 
                 if (extraBE.getProgress() >= extraBE.getMaxProgress()) {
-                    HandleRobosurgeonBlockEntityWithoutPlayer.performSurgery(serverPlayer, entity);
+                    HandleRobosurgeonBlockEntityWithoutPlayer.performSurgery(maid, entity);
                     level.playSound(null, pos, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS, 0.5F, 2.0F);
                     level.playSound(null, pos, SoundEvents.PLAYER_LEVELUP, SoundSource.BLOCKS, 0.5F, 1.0F);
                     extraBE.invokeResetProgress();
                     chamber.setDoorState(true);
                 }
-            } else if (extraBE.getProgress() > 0) {
-                extraBE.invokeResetProgress();
-                chamber.setDoorState(true);
+            } else {
+                if (extraBE.getProgress() > 0) {
+                    extraBE.invokeResetProgress();
+                    chamber.setDoorState(true);
+                }
+                if (wantsSurgery) {
+                    HandleRobosurgeonBlockEntityWithoutPlayer.notifyBlockedSurgery(maid, entity);
+                }
             }
 
         }

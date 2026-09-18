@@ -3,15 +3,21 @@ package com.gly091020.CyberMaid.event;
 import com.github.tartaricacid.touhoulittlemaid.api.event.MaidAndItemTransformEvent;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
+import com.gly091020.CyberMaid.item.EmergencyJetEscapeItem;
+import com.gly091020.CyberMaid.item.MaidLegCyberwareItem;
+import com.gly091020.CyberMaid.item.ShockAbsorberItem;
+import com.gly091020.CyberMaid.registry.CyberMaidItems;
 import com.gly091020.CyberMaid.util.HandleCyberwareEventsWithoutPlayer;
 import com.gly091020.CyberMaid.util.HandleCyberwareSyncWithoutPlayer;
 import com.gly091020.CyberMaid.util.HandleCyberwareUserDataWithoutPlayer;
+import com.gly091020.CyberMaid.util.MaidLegCyberwareAttributes;
 import com.maxwell.cyber_ware_port.CyberWare;
 import com.maxwell.cyber_ware_port.common.capability.CyberwareCapabilityProvider;
 import com.maxwell.cyber_ware_port.common.capability.CyberwareUserData;
 import com.maxwell.cyber_ware_port.common.item.base.BodyPartType;
 import com.maxwell.cyber_ware_port.common.util.CyberwareBodyStatus;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -20,8 +26,12 @@ import net.minecraft.world.phys.AABB;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
+import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
@@ -34,6 +44,8 @@ public class MaidCapabilityEvents {
     @SubscribeEvent
     public static void onPlayerLoggedIn(EntityJoinLevelEvent event) {
         if(event.getEntity() instanceof EntityMaid maid){
+            EmergencyJetEscapeItem.clearState(maid);
+            MaidLegCyberwareAttributes.removeAll(maid);
             CyberwareUserData cap = maid.getData(CyberwareCapabilityProvider.CYBERWARE_DATA.get());
             if (!cap.isInitialized()) {
                 cap.fillWithHumanParts();
@@ -94,6 +106,43 @@ public class MaidCapabilityEvents {
                 }
             });
         }
+    }
+
+    @SubscribeEvent
+    public static void onLivingDamagePre(LivingDamageEvent.Pre event) {
+        if (!(event.getEntity() instanceof EntityMaid maid) || maid.level().isClientSide) return;
+        if (!event.getSource().is(DamageTypes.FALL)) return;
+        if (MaidLegCyberwareItem.findOperationalStack(maid, CyberMaidItems.SHOCK_ABSORBER.get()).isEmpty()) return;
+        event.setNewDamage(event.getNewDamage() * ShockAbsorberItem.FALL_DAMAGE_MULTIPLIER);
+    }
+
+    @SubscribeEvent
+    public static void onLivingDamagePost(LivingDamageEvent.Post event) {
+        if (!(event.getEntity() instanceof EntityMaid maid) || maid.level().isClientSide) return;
+        EmergencyJetEscapeItem.tryTriggerFromDamage(maid, event.getSource(), event.getNewDamage());
+    }
+
+    @SubscribeEvent
+    public static void onLivingFall(LivingFallEvent event) {
+        if (!(event.getEntity() instanceof EntityMaid maid) || maid.level().isClientSide) return;
+        if (!MaidLegCyberwareItem.findOperationalStack(maid, CyberMaidItems.SHOCK_ABSORBER.get()).isEmpty()) {
+            ShockAbsorberItem.spreadFallImpact(maid, event.getDistance(), event.getDamageMultiplier());
+        }
+        if (EmergencyJetEscapeItem.consumeFallProtection(maid)) event.setCanceled(true);
+    }
+
+    @SubscribeEvent
+    public static void onLivingDeath(LivingDeathEvent event) {
+        if (!(event.getEntity() instanceof EntityMaid maid) || maid.level().isClientSide) return;
+        EmergencyJetEscapeItem.clearState(maid);
+        MaidLegCyberwareAttributes.removeAll(maid);
+    }
+
+    @SubscribeEvent
+    public static void onEntityLeaveLevel(EntityLeaveLevelEvent event) {
+        if (!(event.getEntity() instanceof EntityMaid maid) || maid.level().isClientSide) return;
+        EmergencyJetEscapeItem.clearState(maid);
+        MaidLegCyberwareAttributes.removeAll(maid);
     }
 
     @SubscribeEvent
