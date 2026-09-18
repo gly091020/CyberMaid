@@ -14,6 +14,9 @@ repositories {
         name = "Modrinth"
         url = "https://api.modrinth.com/maven"
     }
+    maven {
+        url "https://cursemaven.com"
+    }
 }
 
 base {
@@ -122,6 +125,8 @@ dependencies {
 
     implementation("maven.modrinth:FJab88SV:$cyber_ware_version")
     implementation("maven.modrinth:R0bDWFAW:$little_maid_version")
+    implementation("maven.modrinth:QHB4kBBS:$maid_spell_version")
+    implementation "curse.maven:touhou-little-maid-love-loathe-1631516:$love_loathe_version"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

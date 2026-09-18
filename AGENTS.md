@@ -42,6 +42,7 @@
 - 包名小写；类用 PascalCase，方法与字段 camelCase，常量 `UPPER_SNAKE_CASE`；mixin 以 `XxxMixin`、accessor 以 `XxxAccessor` 命名。
 - 注册 ID 与资源路径用 snake_case 并以 `cyber_maid` 为命名空间；语言键形如 `item.cyber_maid.<id>`、`cyberware.tooltip.<id>`。
 - 未配置格式化或 lint 工具，保持与相邻代码一致，控制单次改动范围。
+- **注释从简**：只在对外 API 上写 `/** */`；内部逻辑靠命名表达，不写"这行在做什么"；只有"为什么"不明显时才留一行注释。
 
 ## Testing Guidelines
 
